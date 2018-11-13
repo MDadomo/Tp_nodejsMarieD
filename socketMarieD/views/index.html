@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="/socket.io/socket.io.js"></script>
+        <style>
+            #messageDiv{
+                border: solid 1px black;
+                width: 35%;
+                height: 50vh;
+                margin: 0 auto;
+                overflow: auto;
+            }
+            .group{
+                display: flex;
+                margin: 0 auto;
+                margin-top: 25px;
+                justify-content: center;
+            }
+        </style>
+    </head>
+ 
+    <body>
+        <div id="messageDiv"></div>
+        <div class="group">
+                <input type="text" id="messageInput" >
+                <button type="submit" id="submitBtn">Send</button>
+        </div>
+        
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+            var socket= io();
+            var messageDiv = document.getElementById('messageDiv');
+            var submitBtn = document.getElementById('submitBtn');
+            var messageInput = document.getElementById('messageInput');
+        
+            submitBtn.addEventListener('click', (e) =>{
+                socket.emit('message', messageInput.value)
+                messageInput.value= '';
+                e.preventDefault();
+            })
+            socket.on('message', data =>{
+                console.log('message received', data)
+                console.log(data)
+                messageDiv.innerHTML += '<p>' + data +"</p> <hr></hr>"
+            })
+        </script>
+        </html>
+    </body>
+</html>
+
